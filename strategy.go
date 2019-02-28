@@ -6,71 +6,71 @@ package main
 import "fmt"
 
 type FlyBehavior interface {
-    fly()
+	fly()
 }
 type QuackBehavior interface{
-    quack()
+	quack()
 }
 
 type Duck struct {
-    flyBehavior   *FlyBehavior
-    quackBehavior *QuackBehavior
-    extra         string
+	flyBehavior   FlyBehavior
+	quackBehavior QuackBehavior
+	extra         string
 }
 
-func (d *Duck) performQuack(){
-    d.quackBehavior.quack()
+func (d Duck) performQuack(){
+	d.quackBehavior.quack()
 }
 
-func (d *Duck) setQuackBehavior(qb QuackBehavior){
-    d.quackBehavior = qb
+func (d Duck) setQuackBehavior(qb QuackBehavior){
+	d.quackBehavior = qb
 }
 
-func (d *Duck) performfly(){
-    d.flyBehavior.fly()
+func (d Duck) performFly(){
+	d.flyBehavior.fly()
 }
 
 func (d *Duck) setFlyBehavior(fb FlyBehavior){
-    d.flyBehavior = fb
+	d.flyBehavior = fb
 }
 
 type Quack struct {}
 type Fly struct{}
 
-func (d *Quack) quack(){
-    fmt.Println("quack")
+func (d Quack) quack(){
+	fmt.Println("quack")
 }
-func (d *Fly) fly(){
-    fmt.Println("fly")
+func (d Fly) fly(){
+	fmt.Println("fly")
 }
 
 type Squeak struct{}
-func (sq *Squeak) quack(){
-    fmt.Println("Squeak")
+func (sq Squeak) quack(){
+	fmt.Println("Squeak")
 }
 type FlyNoWay struct{}
-func (f *FlyNoWay) fly(){
-    fmt.Println("can not fly")
+func (f FlyNoWay) fly(){
+	fmt.Println("can not fly")
 }
 type MallardDuck struct{
-    duck Duck
+	duck Duck
 }
 func NewMallardDuck() *MallardDuck {
-    return &MallardDuck{Duck{&Fly{},&Quack{},""}}
+	return &MallardDuck{Duck{Fly{},Quack{},""}}
 }
 type ModelDuck struct{
-    duck Duck
+	duck Duck
 }
 
 func NewModelDuck() *ModelDuck {
-    return &ModelDuck{Duck{&FlyNoWay{},&Quack{},""}}
+	return &ModelDuck{Duck{FlyNoWay{},Quack{},""}}
 }
 
 func main(){
-    mallar := NewMallardDuck()
-    mallar.performFly()
-    model := NewModelDuck()
-    model.performFly()
-    model.duck.setFlyBehavior(FlyNoWay{})
-    model.performFly()
+	mallar := NewMallardDuck()
+	mallar.duck.performFly()
+	model := NewModelDuck()
+	model.duck.performFly()
+	model.duck.setFlyBehavior(Fly{})
+	model.duck.performFly()
 }
