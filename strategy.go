@@ -10,6 +10,7 @@
 package main
 import "fmt"
 
+//定义的行为接口，飞行行为与叫声行为
 type FlyBehavior interface {
 	fly()
 }
@@ -18,7 +19,7 @@ type QuackBehavior interface{
 }
 
 type Duck struct {
-	flyBehavior   FlyBehavior
+	flyBehavior   FlyBehavior  //通过组合得到行为
 	quackBehavior QuackBehavior
 	extra         string
 }
@@ -27,7 +28,7 @@ func (d Duck) performQuack(){
 	d.quackBehavior.quack()
 }
 
-func (d Duck) setQuackBehavior(qb QuackBehavior){
+func (d *Duck) setQuackBehavior(qb QuackBehavior){   //用指针才能真正修改
 	d.quackBehavior = qb
 }
 
@@ -35,38 +36,36 @@ func (d Duck) performFly(){
 	d.flyBehavior.fly()
 }
 
-func (d *Duck) setFlyBehavior(fb FlyBehavior){
+func (d *Duck) setFlyBehavior(fb FlyBehavior){  //同上理
 	d.flyBehavior = fb
 }
-
+// 具体行为的实现
 type Quack struct {}
 type Fly struct{}
-
+type Squeak struct{}
+type FlyNoWay struct{}
+func (sq Squeak) quack(){
+	fmt.Println("Squeak")
+}
+func (f FlyNoWay) fly(){
+	fmt.Println("can not fly")
+}
 func (d Quack) quack(){
 	fmt.Println("quack")
 }
 func (d Fly) fly(){
 	fmt.Println("fly")
 }
-
-type Squeak struct{}
-func (sq Squeak) quack(){
-	fmt.Println("Squeak")
-}
-type FlyNoWay struct{}
-func (f FlyNoWay) fly(){
-	fmt.Println("can not fly")
-}
+//继承的子类。
 type MallardDuck struct{
+	duck Duck
+}
+type ModelDuck struct{
 	duck Duck
 }
 func NewMallardDuck() *MallardDuck {
 	return &MallardDuck{Duck{Fly{},Quack{},""}}
 }
-type ModelDuck struct{
-	duck Duck
-}
-
 func NewModelDuck() *ModelDuck {
 	return &ModelDuck{Duck{FlyNoWay{},Quack{},""}}
 }
