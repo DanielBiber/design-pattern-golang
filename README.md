@@ -8,7 +8,7 @@
 [策略模式](https://github.com/DanielBiber/design-pattern-golang/blob/master/strategy.go)；
 [观察者模式](https://github.com/DanielBiber/design-pattern-golang/blob/master/observer.go);
 [装饰器模式](https://github.com/DanielBiber/design-pattern-golang/blob/master/decorator.go);
-[工厂模式]()
+[工厂模式](https://github.com/DanielBiber/design-pattern-golang/tree/master/factory_pattern)
 ### 记录的设计原则有：
 [link](https://github.com/DanielBiber/design-pattern-golang/blob/master/principle.md)
 封装变化；多用组合，少用继承；针对接口编程，不针对实现编程；
